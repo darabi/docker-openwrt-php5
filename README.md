@@ -13,16 +13,13 @@ and index.php files are accepted as DirectoryIndex files.
 How to use
 ----------
 
-Here is [a sample Dockerfile](test/Dockerfile) in the test subdirectory.
+There is a [simple php file with a call to phpinfo()](test/htdocs/phpinfo.php) in subdirectory test/htdocs, so you can
 
 ```
-cd test
-docker build -t mcreations/openwrt-php5-test .
-docker run -p 11080:80 -it --rm mcreations/openwrt-php5-test
+docker run -it --rm -p 11080:80 -v `pwd`/test/htdocs:/usr/share/htdocs mcreations/openwrt-php5
 ```
 
-Now point your browser to http://localhost:11080/phpinfo.php to see
-the content of [this simple PHP file](test/htdocs/phpinfo.php).
+Now point your browser to http://localhost:11080/phpinfo.php to see the output of phpinfo.
 
 Adding Apache configuration
 ---------------------------
@@ -35,9 +32,13 @@ such `.conf` files to these directories:
 * `/etc/apache/conf`
 * `/etc/apache/sites`
 
+Github repo
+-----------
+
+https://github.com/m-creations/docker-openwrt-php5
+
 TODO
 ----
 
 * Document which modules are available/built-in
-* Add a link to the github repo which is used to build
 
