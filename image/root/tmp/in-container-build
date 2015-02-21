@@ -1,7 +1,7 @@
 #!/bin/sh
 
 opkg update
-opkg install php5-fastcgi php5-mod-gd
+opkg install --force-checksum php5-fastcgi php5-mod-gd
 
 # remove unnecessary files after install
 rm /tmp/opkg-lists/*
