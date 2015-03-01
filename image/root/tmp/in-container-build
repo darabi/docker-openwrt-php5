@@ -8,23 +8,14 @@ rm /tmp/opkg-lists/*
 
 # In OpenWrt, the php-cgi binaries are in /usr/bin, which
 # I don't want to expose as a Directory, so copy them
+# but beware that the php5-fcgi daemon still uses the one
+# in /usr/bin
+#
+# NOTE: this dir must be in sync with the content in etc/apache/conf/php5-cgi.conf
 mkdir /usr/share/php5-cgi
-mv /usr/bin/php-cgi /usr/bin/php-fcgi /usr/share/php5-cgi/
+cp /usr/bin/php-cgi /usr/bin/php-fcgi /usr/share/php5-cgi/
 
-# # configure apache for php mime time and php cgi
-# sed -i -e 's/ScriptAlias \/cgi-bin\/\(.*\)/ScriptAlias \/cgi-bin\/\1\n    ScriptAlias \/php\/ "\/usr\/bin\/"/' /etc/apache/httpd.conf
-# sed -i -e 's/AddType application\/x-gzip .gz .tgz/AddType application\/x-gzip .gz .tgz\n    AddType application\/x-httpd-php .php/' /etc/apache/httpd.conf
-# printf '\n\nAction application/x-httpd-php "/php/php-cgi"\n\n' >> /etc/apache/httpd.conf
-
-# # FIXME: don't use /usr/bin -> move php-cgi somewhere else and use that directory
-# sed -i -e 's/<Directory "\/usr\/share\/cgi-bin">/<Directory "\/usr\/bin">\n    AllowOverride None\n    Options none\n    Order allow,deny\n    Allow from all\n<\/Directory>\n<Directory "\/usr\/share\/cgi-bin">/' /etc/apache/httpd.conf
-
-# sed -i -e 's/DirectoryIndex index.html/DirectoryIndex index.php index.html/' /etc/apache/httpd.conf
-
-# Configure php
-sed -i -e 's/doc_root =.*/doc_root = ""/' /etc/php.ini
-sed -i -e 's/;extension=gd.so/extension=gd.so/' /etc/php.ini
-
-# create a php file to be able to test the functionality
-mkdir /usr/share/htdocs/test
-echo "<?php phpinfo(); ?>" > /usr/share/htdocs/test/index.php
+# Create a dir for the php session files
+# NOTE: this dir must be in sync with etc/php5/php5-additional.ini
+mkdir /tmp/phpsess
+chown nobody /tmp/phpsess

@@ -21,6 +21,15 @@ docker run -it --rm -p 11080:80 -v `pwd`/test/htdocs:/usr/share/htdocs mcreation
 
 Now point your browser to http://localhost:11080/phpinfo.php to see the output of phpinfo.
 
+Adding PHP configuration
+---------------------------
+
+To include additional configuration, add your .ini files to
+
+* `/etc/php5`
+
+The PHP binary is configured to scan this directory and include the .ini files contained within.
+
 Adding Apache configuration
 ---------------------------
 
