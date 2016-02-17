@@ -3,6 +3,10 @@
 FROM mcreations/openwrt-apache2
 MAINTAINER Kambiz Darabi <darabi@m-creations.net>
 
+#
+# See the files in image/root/etc for additional info, especially the file
+# image/root/etc/php5/php5-additional.ini
+#
 ADD image/root/ /
 
 # The build performs the following:
@@ -18,8 +22,6 @@ ADD image/root/ /
 #
 # - unset doc_root
 #
-# - decrease error_reporting level to NOT show the DEPRECATED, NOTICE, and STRICT levels
-#
 # - create a dir /tmp/phpsess for the php session files
 #   NOTE: this dir must be in sync with etc/php5/php5-additional.ini
 #
@@ -30,8 +32,8 @@ RUN opkg update &&\
     rm /tmp/opkg-lists/* &&\
     mkdir /usr/share/php5-cgi &&\
     cp /usr/bin/php-cgi /usr/bin/php-fcgi /usr/share/php5-cgi/ &&\
-    mkdir /tmp/phpsess &&\
-    chown nobody /tmp/phpsess &&\
+    chown -R nobody:root /tmp/phpsess &&\
+    chmod 775 /tmp/phpsess &&\
     echo "<?php phpinfo(); ?>" > /usr/share/htdocs/index.php
 
 EXPOSE 80
