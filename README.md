@@ -13,13 +13,15 @@ and index.php files are accepted as DirectoryIndex files.
 How to use
 ----------
 
-There is a [simple php file with a call to phpinfo()](test/htdocs/phpinfo.php) in subdirectory test/htdocs, so you can
+The build puts `phpinfo()` in index.php of `/usr/share/htdocs`, so you can
 
 ```
-docker run -it --rm -p 11080:80 -v `pwd`/test/htdocs:/usr/share/htdocs mcreations/openwrt-php5
+docker run -it --rm -p 11080:80 mcreations/openwrt-php5
 ```
 
-Now point your browser to http://localhost:11080/phpinfo.php to see the output of phpinfo.
+and point your browser to http://localhost:11080/index.php to see the output of phpinfo.
+
+**WARNING: you MUST remove the index.php file in /usr/share/htdocs when using this image in production!**
 
 Adding PHP configuration
 ---------------------------
